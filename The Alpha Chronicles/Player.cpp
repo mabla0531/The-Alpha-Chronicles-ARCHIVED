@@ -1,9 +1,20 @@
 #include "Player.h"
 
-Player::Player() {
-	playerSpriteSheet.loadFromFile("res/male_01-1.png");
-	playerSprite.setTexture(playerSpriteSheet);
-	playerSprite.setTextureRect(sf::IntRect(32, 0, 32, 32));
+Player::Player() : Entity() {
+	spriteSheet.loadFromFile("res/male_01-1.png");
+	sprite.setTexture(spriteSheet);
+
+	//construct animations, 0, 1, 2, 3 is down, left, right, up respectively
+	for (int i = 0; i < 4; i++) {
+		animation[i].length = 4;
+
+		animation[i].frames.push_back(sf::IntRect(32, (32 * i), 32, 32));
+		animation[i].frames.push_back(sf::IntRect(0, (32 * i), 32, 32));
+		animation[i].frames.push_back(sf::IntRect(32, (32 * i), 32, 32));
+		animation[i].frames.push_back(sf::IntRect(64, (32 * i), 32, 32));
+	}
+	currentAnimation = &animation[0];
+	sprite.setTextureRect(currentAnimation->frames.at(0));
 }
 
 Player::~Player() {
@@ -12,9 +23,12 @@ Player::~Player() {
 
 void Player::tick() {
 	float moveInterval = speed;
+	animationCycleSpeed = 250.0f;
 	//handle input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		moveInterval = runningSpeed;
+		animationCycleSpeed = 125.0f;
+	}
 
 	float xMove = 0.0f, yMove = 0.0f; //stores the movement that needs to be done
 
@@ -42,20 +56,36 @@ void Player::tick() {
 		yMove = diagonalMove;
 		xMove = diagonalMove;
 	}
+	
 	//apply the movement
 	x += xMove;
 	y += yMove;
+
+	//set the current animation for the direction of movement
+	if (yMove > 0.0f)
+		currentAnimation = &animation[0];
+	else if (yMove < 0.0f)
+		currentAnimation = &animation[3];
+	else if (xMove < 0.0f && yMove == 0.0f)
+		currentAnimation = &animation[1];
+	else if (xMove > 0.0f && yMove == 0.0f)
+		currentAnimation = &animation[2];
+
+	//cycle animation, and if the player isn't moving set the currentFrame to idle
+	if (cycleClock.getElapsedTime().asMilliseconds() >= animationCycleSpeed) {
+		if (xMove != 0.0f || yMove != 0.0f) {
+			cycleClock.restart();
+			currentFrame++;
+			if (currentFrame >= currentAnimation->length) //if the current frame is larger than the size of the vector, set it to the beginning again
+				currentFrame = 0;
+		} else {
+			currentFrame = 0; //the first frame in the vector doubles as the stagnant frame
+		}
+	}
 }
 
 void Player::render(sf::RenderWindow* window, int xOffset, int yOffset) {
-	playerSprite.setPosition(sf::Vector2f(x - xOffset, y - yOffset));
-	window->draw(playerSprite);
-}
-
-float Player::getX() {
-	return x;
-}
-
-float Player::getY() {
-	return y;
+	sprite.setPosition(sf::Vector2f(x - xOffset - 16, y - yOffset - 16)); //center the player sprite exactly in the center of the screen
+	sprite.setTextureRect(currentAnimation->frames.at(currentFrame));
+	window->draw(sprite);
 }

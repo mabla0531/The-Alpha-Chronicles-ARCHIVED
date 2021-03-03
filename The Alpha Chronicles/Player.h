@@ -1,12 +1,14 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include "Entity.h"
+#include "Animation.h"
 
-class Player {
+class Player : public Entity {
 private:
-	sf::Texture playerSpriteSheet;
-	sf::Sprite playerSprite;
-	float x = 10.0f, y = 10.0f;
-	float speed = 1.0f, runningSpeed = 2.0f;
+	Animation animation[4];
+	Animation* currentAnimation;
+	int currentFrame = 0;
+	float animationCycleSpeed = 250.0f;
+	sf::Clock cycleClock;
 
 public:
 	Player();
@@ -14,8 +16,4 @@ public:
 
 	void tick();
 	void render(sf::RenderWindow* window, int xOffset, int yOffset);
-
-	float getX();
-	float getY();
-
 };

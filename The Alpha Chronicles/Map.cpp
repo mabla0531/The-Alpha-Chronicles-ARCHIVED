@@ -39,10 +39,13 @@ void Map::render(sf::RenderWindow* window, int xOffset, int yOffset) {
 
 	currentTile.setTexture(tileMap);
 	for (int i = 0; i < tiles.size(); i++) {
-		currentTile.setTextureRect(tiles.at(i).getTextureRect());
-		currentTile.setPosition(sf::Vector2f(tiles.at(i).getLocation().x - xOffset, tiles.at(i).getLocation().y - yOffset));
+		if (tiles.at(i).getLocation().x > (xOffset - 32) && tiles.at(i).getLocation().y > (yOffset - 32) &&
+			tiles.at(i).getLocation().x < (xOffset + window->getSize().x) && tiles.at(i).getLocation().y < (yOffset + window->getSize().y)) {
+			currentTile.setTextureRect(tiles.at(i).getTextureRect());
+			currentTile.setPosition(sf::Vector2f(tiles.at(i).getLocation().x - xOffset, tiles.at(i).getLocation().y - yOffset));
 
-		window->draw(currentTile);
+			window->draw(currentTile);
+		}
 	}
 }
 

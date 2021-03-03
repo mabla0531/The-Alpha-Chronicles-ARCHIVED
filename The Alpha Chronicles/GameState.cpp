@@ -1,11 +1,6 @@
 #include "GameState.h"
 #include <iostream>
 
-GameState::GameState() {
-	gameCameraOffsetX = 0;
-	gameCameraOffsetY = 0;
-}
-
 GameState::GameState(sf::RenderWindow* window) {
 	this->window = window;
 	gameCameraOffsetX = 0;

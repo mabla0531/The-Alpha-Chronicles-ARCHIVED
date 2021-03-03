@@ -11,7 +11,6 @@ private:
 	int gameCameraOffsetX, gameCameraOffsetY;
 
 public:
-	GameState();
 	GameState(sf::RenderWindow* window);
 	~GameState();
 
