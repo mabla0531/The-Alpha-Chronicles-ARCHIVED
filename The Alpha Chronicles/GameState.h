@@ -6,8 +6,8 @@
 class GameState : public State {
 private:
 	sf::RenderWindow* window;
-	Player player;
 	Map testMap;
+	Player player = Player(&testMap);
 	int gameCameraOffsetX, gameCameraOffsetY;
 
 public:

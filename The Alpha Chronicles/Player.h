@@ -11,7 +11,7 @@ private:
 	sf::Clock cycleClock;
 
 public:
-	Player();
+	Player(Map* map);
 	~Player();
 
 	void tick();

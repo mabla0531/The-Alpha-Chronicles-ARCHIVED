@@ -1,5 +1,4 @@
 #include "GameState.h"
-#include <iostream>
 
 GameState::GameState(sf::RenderWindow* window) {
 	this->window = window;
@@ -8,7 +7,7 @@ GameState::GameState(sf::RenderWindow* window) {
 }
 
 GameState::~GameState() {
-
+	
 }
 
 void GameState::tickGameCamera() {
@@ -19,7 +18,7 @@ void GameState::tickGameCamera() {
 		gameCameraOffsetX = 0;
 	if (gameCameraOffsetX + window->getSize().x > testMap.getWidth())
 		gameCameraOffsetX = testMap.getWidth() - window->getSize().x;
-
+	
 	if (gameCameraOffsetY < 0)
 		gameCameraOffsetY = 0;
 	if (gameCameraOffsetY + window->getSize().y > testMap.getHeight())

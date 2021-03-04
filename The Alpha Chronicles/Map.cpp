@@ -1,5 +1,4 @@
 #include "Map.h"
-#include <iostream>
 
 Map::Map() {
 	int mapWidth, mapHeight, tileID;
@@ -12,12 +11,13 @@ Map::Map() {
 	mapFile.open("res/maps/map1.map");
 	mapFile >> mapWidth >> mapHeight;
 	
+	bool solid = false;
+
 	for (int y = 0; y < mapHeight; y++) {
 		for (int x = 0; x < mapWidth; x++) {
 			mapFile >> tileID;
-			
-			tiles.push_back(Tile(tileRects[tileID], sf::Vector2f(x * 32.0f, y * 32.0f), false));
-			std::cout << x << " " << y << std::endl;
+			(tileID == 1 ? solid = true : solid = false);
+			tiles.push_back(Tile(tileRects[tileID], sf::Vector2f(x * 32.0f, y * 32.0f), solid));
 		}
 	}
 
@@ -47,6 +47,18 @@ void Map::render(sf::RenderWindow* window, int xOffset, int yOffset) {
 			window->draw(currentTile);
 		}
 	}
+}
+
+Tile Map::getTile(int x, int y) {
+	sf::Vector2f currentTileLocation;
+	for (int i = 0; i < tiles.size(); i++) {
+		currentTileLocation = tiles.at(i).getLocation();
+		if (currentTileLocation.x <= x && currentTileLocation.y <= y && x - currentTileLocation.x > 0 && y - currentTileLocation.y > 0) {
+			return tiles.at(i);
+		}
+	}
+
+	return Tile();
 }
 
 int Map::getWidth() {

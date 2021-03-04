@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player() : Entity() {
+Player::Player(Map* map) : Entity(map) {
 	spriteSheet.loadFromFile("res/male_01-1.png");
 	sprite.setTexture(spriteSheet);
 
@@ -15,6 +15,9 @@ Player::Player() : Entity() {
 	}
 	currentAnimation = &animation[0];
 	sprite.setTextureRect(currentAnimation->frames.at(0));
+
+	x = 100.0f;
+	y = 100.0f;
 }
 
 Player::~Player() {
@@ -24,6 +27,7 @@ Player::~Player() {
 void Player::tick() {
 	float moveInterval = speed;
 	animationCycleSpeed = 250.0f;
+
 	//handle input
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		moveInterval = runningSpeed;
@@ -58,8 +62,7 @@ void Player::tick() {
 	}
 	
 	//apply the movement
-	x += xMove;
-	y += yMove;
+	move(xMove, yMove);
 
 	//set the current animation for the direction of movement
 	if (yMove > 0.0f)

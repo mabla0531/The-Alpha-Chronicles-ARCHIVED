@@ -18,6 +18,8 @@ public:
 	void tick();
 	void render(sf::RenderWindow* window, int xOffset, int yOffset);
 
+	Tile getTile(int x, int y);
+
 	int getWidth();
 	int getHeight();
 };

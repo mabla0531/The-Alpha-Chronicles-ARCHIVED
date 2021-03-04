@@ -1,11 +1,16 @@
 #include "Entity.h"
 
-Entity::Entity() {
-
+Entity::Entity(Map* map) {
+	this->map = map;
 }
 
 Entity::~Entity() {
 
+}
+
+void Entity::move(float xMove, float yMove) {
+	x += xMove;
+	y += yMove;
 }
 
 float Entity::getX() {
