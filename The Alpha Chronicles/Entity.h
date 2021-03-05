@@ -7,24 +7,20 @@ protected:
 	sf::Texture spriteSheet;
 	sf::Sprite sprite;
 
-	Map* map;
-
-	float speed = 1.25f, runningSpeed = 2.0f;
 	float x = 10.0f, y = 10.0f;
-
-	bool moving = false;
 
 	sf::IntRect collisionBounds;
 
 public:
-	Entity(Map* map);
+	Entity();
 	~Entity();
 
 	virtual void tick() = 0;
 	virtual void render(sf::RenderWindow* window, int xOffset, int yOffset) = 0;
 
-	void move(float xMove, float yMove);
-
 	float getX();
 	float getY();
+
+	void setX(float x);
+	void setY(float y);
 };

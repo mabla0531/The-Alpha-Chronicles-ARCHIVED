@@ -150,9 +150,12 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MobileEntity.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="StaticEntity.cpp" />
+    <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -160,9 +163,12 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MobileEntity.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Tree.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\base_out_atlas.png" />

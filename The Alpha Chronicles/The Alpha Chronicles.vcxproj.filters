@@ -50,6 +50,15 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="StaticEntity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="MobileEntity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -74,6 +83,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticEntity.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MobileEntity.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

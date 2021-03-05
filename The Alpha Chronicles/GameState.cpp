@@ -4,6 +4,9 @@ GameState::GameState(sf::RenderWindow* window) {
 	this->window = window;
 	gameCameraOffsetX = 0;
 	gameCameraOffsetY = 0;
+
+	tree.setX(300);
+	tree.setY(300);
 }
 
 GameState::~GameState() {
@@ -30,14 +33,20 @@ void GameState::tick() {
 
 	testMap.tick();
 	player.tick();
+
+	tree.tick();
 }
 
 void GameState::render() {
 	testMap.render(window, gameCameraOffsetX, gameCameraOffsetY);
 	player.render(window, gameCameraOffsetX, gameCameraOffsetY);
+
+	tree.render(window, gameCameraOffsetX, gameCameraOffsetY);
 }
 
 void GameState::render(sf::RenderWindow* window) {
 	testMap.render(window, gameCameraOffsetX, gameCameraOffsetY);
 	player.render(window, gameCameraOffsetX, gameCameraOffsetY);
+
+	tree.render(window, gameCameraOffsetX, gameCameraOffsetY);
 }

@@ -1,11 +1,15 @@
 #include "Player.h"
 
-Player::Player(Map* map) : Entity(map) {
+Player::Player(Map* map) : MobileEntity(map) {
+	//set spriteSheet and sprite
 	spriteSheet.loadFromFile("res/male_01-1.png");
 	sprite.setTexture(spriteSheet);
 
 	//construct animations, 0, 1, 2, 3 is down, left, right, up respectively
-	for (int i = 0; i < 4; i++) {
+	animation = new Animation[4];
+	animationCount = 4;
+
+	for (int i = 0; i < animationCount; i++) {
 		animation[i].length = 4;
 
 		animation[i].frames.push_back(sf::IntRect(32, (32 * i), 32, 32));
@@ -16,8 +20,15 @@ Player::Player(Map* map) : Entity(map) {
 	currentAnimation = &animation[0];
 	sprite.setTextureRect(currentAnimation->frames.at(0));
 
+	//set player's starting location
 	x = 100.0f;
 	y = 100.0f;
+
+	//set collision bounds of the player
+	collisionBounds.left = 4;
+	collisionBounds.top = 8;
+	collisionBounds.width = 24;
+	collisionBounds.height = 24;
 }
 
 Player::~Player() {
@@ -75,8 +86,8 @@ void Player::tick() {
 		currentAnimation = &animation[2];
 
 	//cycle animation, and if the player isn't moving set the currentFrame to idle
-	if (cycleClock.getElapsedTime().asMilliseconds() >= animationCycleSpeed && moving) {
-		if (xMove != 0.0f || yMove != 0.0f) {
+	if (cycleClock.getElapsedTime().asMilliseconds() >= animationCycleSpeed) {
+		if (moving) {
 			cycleClock.restart();
 			currentFrame++;
 			if (currentFrame >= currentAnimation->length) //if the current frame is larger than the size of the vector, set it to the beginning again
@@ -87,8 +98,3 @@ void Player::tick() {
 	}
 }
 
-void Player::render(sf::RenderWindow* window, int xOffset, int yOffset) {
-	sprite.setPosition(sf::Vector2f(x - xOffset, y - yOffset)); //center the player sprite exactly in the center of the screen
-	sprite.setTextureRect(currentAnimation->frames.at(currentFrame));
-	window->draw(sprite);
-}
