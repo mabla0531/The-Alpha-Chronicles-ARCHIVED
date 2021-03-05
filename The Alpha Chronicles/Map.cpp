@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <iostream>
 
 Map::Map() {
 	int mapWidth, mapHeight, tileID;
@@ -50,10 +51,10 @@ void Map::render(sf::RenderWindow* window, int xOffset, int yOffset) {
 }
 
 Tile Map::getTile(int x, int y) {
-	sf::Vector2f currentTileLocation;
+	sf::IntRect currentTile;
 	for (int i = 0; i < tiles.size(); i++) {
-		currentTileLocation = tiles.at(i).getLocation();
-		if (currentTileLocation.x <= x && currentTileLocation.y <= y && x - currentTileLocation.x > 0 && y - currentTileLocation.y > 0) {
+		currentTile = tiles.at(i).getRect();
+		if (currentTile.contains(sf::Vector2i(x, y))) {
 			return tiles.at(i);
 		}
 	}

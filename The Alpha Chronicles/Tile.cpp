@@ -28,6 +28,11 @@ void Tile::setLocation(sf::Vector2f location) {
     this->location = location;
 }
 
+sf::IntRect Tile::getRect()
+{
+    return sf::IntRect(location.x, location.y, 32, 32);
+}
+
 sf::IntRect Tile::getTextureRect() {
     return textureRect;
 }

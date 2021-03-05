@@ -15,6 +15,7 @@ public:
 	void tick();
 	sf::Vector2f getLocation();
 	void setLocation(sf::Vector2f location);
+	sf::IntRect getRect();
 	sf::IntRect getTextureRect();
 	void setTextureRect(sf::IntRect textureRect);
 	bool isSolid();
