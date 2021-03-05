@@ -25,10 +25,10 @@ Player::~Player() {
 }
 
 void Player::tick() {
-	float moveInterval = speed;
-	animationCycleSpeed = 250.0f;
 
 	//handle input
+	float moveInterval = speed;
+	animationCycleSpeed = 250.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		moveInterval = runningSpeed;
 		animationCycleSpeed = 125.0f;
@@ -75,7 +75,7 @@ void Player::tick() {
 		currentAnimation = &animation[2];
 
 	//cycle animation, and if the player isn't moving set the currentFrame to idle
-	if (cycleClock.getElapsedTime().asMilliseconds() >= animationCycleSpeed) {
+	if (cycleClock.getElapsedTime().asMilliseconds() >= animationCycleSpeed && moving) {
 		if (xMove != 0.0f || yMove != 0.0f) {
 			cycleClock.restart();
 			currentFrame++;
@@ -88,7 +88,7 @@ void Player::tick() {
 }
 
 void Player::render(sf::RenderWindow* window, int xOffset, int yOffset) {
-	sprite.setPosition(sf::Vector2f(x - xOffset - 16, y - yOffset - 16)); //center the player sprite exactly in the center of the screen
+	sprite.setPosition(sf::Vector2f(x - xOffset, y - yOffset)); //center the player sprite exactly in the center of the screen
 	sprite.setTextureRect(currentAnimation->frames.at(currentFrame));
 	window->draw(sprite);
 }

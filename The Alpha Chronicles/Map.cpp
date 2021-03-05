@@ -17,7 +17,7 @@ Map::Map() {
 	for (int y = 0; y < mapHeight; y++) {
 		for (int x = 0; x < mapWidth; x++) {
 			mapFile >> tileID;
-			(tileID == 1 ? solid = true : solid = false);
+			(tileID == 1 ? solid = true : solid = false); //temporary, make tiles with ID 1 solid and others not solid
 			tiles.push_back(Tile(tileRects[tileID], sf::Vector2f(x * 32.0f, y * 32.0f), solid));
 		}
 	}

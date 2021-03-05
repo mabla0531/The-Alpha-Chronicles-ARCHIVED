@@ -14,12 +14,12 @@ void GameState::tickGameCamera() {
 	gameCameraOffsetX = player.getX() - (window->getSize().x / 2);
 	gameCameraOffsetY = player.getY() - (window->getSize().y / 2);
 
-	if (gameCameraOffsetX < 0)
+	if (gameCameraOffsetX < 0) //make sure the game camera isn't rendering blank space
 		gameCameraOffsetX = 0;
 	if (gameCameraOffsetX + window->getSize().x > testMap.getWidth())
 		gameCameraOffsetX = testMap.getWidth() - window->getSize().x;
 	
-	if (gameCameraOffsetY < 0)
+	if (gameCameraOffsetY < 0) //same as above, but for Y axis
 		gameCameraOffsetY = 0;
 	if (gameCameraOffsetY + window->getSize().y > testMap.getHeight())
 		gameCameraOffsetY = testMap.getHeight() - window->getSize().y;
