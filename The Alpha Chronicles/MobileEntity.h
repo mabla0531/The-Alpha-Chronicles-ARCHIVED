@@ -11,18 +11,21 @@ protected:
 	float animationCycleSpeed = 250.0f;
 	sf::Clock cycleClock;
 
+	std::vector<Entity*>* entities;
 	Map* map;
-	bool moving = false;
+	bool movingX = false;
+	bool movingY = false;
 
 	float speed = 1.5f;
 	float runningSpeed = 2.5f;
 
 public:
 
-	MobileEntity(Map* map);
+	MobileEntity(Map* map, std::vector<Entity*>* entities);
 	~MobileEntity();
 
-	void move(float xMove, float yMove);
+	void moveX(float xMove);
+	void moveY(float yMove);
 
 	virtual void tick() = 0;
 	void render(sf::RenderWindow* window, int xOffset, int yOffset);

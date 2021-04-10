@@ -5,8 +5,14 @@ GameState::GameState(sf::RenderWindow* window) {
 	gameCameraOffsetX = 0;
 	gameCameraOffsetY = 0;
 
-	tree.setX(300);
-	tree.setY(300);
+	player = new Player(&testMap, &entities);
+	Tree* tree = new Tree();
+
+	tree->setX(300);
+	tree->setY(300);
+
+	entities.push_back(player);
+	entities.push_back(tree);
 }
 
 GameState::~GameState() {
@@ -14,8 +20,8 @@ GameState::~GameState() {
 }
 
 void GameState::tickGameCamera() {
-	gameCameraOffsetX = player.getX() - (window->getSize().x / 2);
-	gameCameraOffsetY = player.getY() - (window->getSize().y / 2);
+	gameCameraOffsetX = (int)(player->getX() - (window->getSize().x / 2));
+	gameCameraOffsetY = (int)(player->getY() - (window->getSize().y / 2));
 
 	if (gameCameraOffsetX < 0) //make sure the game camera isn't rendering blank space
 		gameCameraOffsetX = 0;
@@ -32,21 +38,29 @@ void GameState::tick() {
 	tickGameCamera();
 
 	testMap.tick();
-	player.tick();
 
-	tree.tick();
+	//sort Entities by Y value to give a 3d look
+	std::sort(entities.begin(), entities.end(), [](Entity* e1, Entity* e2) {
+		return e1->getY() < e2->getY();
+	});
+
+	for (int e = 0; e < entities.size(); e++) {
+		entities.at(e)->tick();
+	}
 }
 
 void GameState::render() {
 	testMap.render(window, gameCameraOffsetX, gameCameraOffsetY);
-	player.render(window, gameCameraOffsetX, gameCameraOffsetY);
-
-	tree.render(window, gameCameraOffsetX, gameCameraOffsetY);
+	
+	for (int e = 0; e < entities.size(); e++) {
+		entities.at(e)->render(window, gameCameraOffsetX, gameCameraOffsetY);
+	}
 }
 
-void GameState::render(sf::RenderWindow* window) {
+void GameState::render(sf::RenderWindow* window) { //for rendering to an alternate window
 	testMap.render(window, gameCameraOffsetX, gameCameraOffsetY);
-	player.render(window, gameCameraOffsetX, gameCameraOffsetY);
 
-	tree.render(window, gameCameraOffsetX, gameCameraOffsetY);
+	for (int e = 0; e < entities.size(); e++) {
+		entities.at(e)->render(window, gameCameraOffsetX, gameCameraOffsetY);
+	}
 }

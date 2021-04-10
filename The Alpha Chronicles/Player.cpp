@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Map* map) : MobileEntity(map) {
+Player::Player(Map* map, std::vector<Entity*>* entities) : MobileEntity(map, entities) {
 	//set spriteSheet and sprite
 	spriteSheet.loadFromFile("res/male_01-1.png");
 	sprite.setTexture(spriteSheet);
@@ -36,7 +36,8 @@ Player::~Player() {
 }
 
 void Player::tick() {
-
+	movingX = false;
+	movingY = false;
 	//handle input
 	float moveInterval = speed;
 	animationCycleSpeed = 250.0f;
@@ -47,14 +48,22 @@ void Player::tick() {
 
 	float xMove = 0.0f, yMove = 0.0f; //stores the movement that needs to be done
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		yMove = -moveInterval;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		movingY = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		xMove = -moveInterval;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		movingX = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		yMove = moveInterval;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		movingY = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		xMove = moveInterval;
+		movingX = true;
+	}
 
 	//special diagonal movement that ensures the player will not move faster diagonally
 	float diagonalMove = sqrt((moveInterval * moveInterval) / 2);
@@ -72,8 +81,11 @@ void Player::tick() {
 		xMove = diagonalMove;
 	}
 	
-	//apply the movement
-	move(xMove, yMove);
+	//apply the movement if any was done
+	if (movingX)
+		moveX(xMove);
+	if (movingY)
+		moveY(yMove);
 
 	//set the current animation for the direction of movement
 	if (yMove > 0.0f)
@@ -87,7 +99,7 @@ void Player::tick() {
 
 	//cycle animation, and if the player isn't moving set the currentFrame to idle
 	if (cycleClock.getElapsedTime().asMilliseconds() >= animationCycleSpeed) {
-		if (moving) {
+		if (movingX || movingY) {
 			cycleClock.restart();
 			currentFrame++;
 			if (currentFrame >= currentAnimation->length) //if the current frame is larger than the size of the vector, set it to the beginning again

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "State.h"
 #include "Player.h"
 #include "Tree.h"
@@ -8,8 +9,10 @@ class GameState : public State {
 private:
 	sf::RenderWindow* window;
 	Map testMap;
-	Player player = Player(&testMap);
-	Tree tree;
+
+	Player* player;
+	std::vector<Entity*> entities;
+
 	int gameCameraOffsetX, gameCameraOffsetY;
 
 public:

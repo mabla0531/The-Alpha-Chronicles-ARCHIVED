@@ -4,7 +4,7 @@
 class Player : public MobileEntity {
 
 public:
-	Player(Map* map);
+	Player(Map* map, std::vector<Entity*>* entities);
 	~Player();
 
 	void tick();

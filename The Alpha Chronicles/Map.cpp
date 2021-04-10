@@ -50,11 +50,11 @@ void Map::render(sf::RenderWindow* window, int xOffset, int yOffset) {
 	}
 }
 
-Tile Map::getTile(int x, int y) {
+Tile Map::getTile(float x, float y) {
 	sf::IntRect currentTile;
 	for (int i = 0; i < tiles.size(); i++) {
 		currentTile = tiles.at(i).getRect();
-		if (currentTile.contains(sf::Vector2i(x, y))) {
+		if (currentTile.contains(sf::Vector2i((int)x, (int)y))) {
 			return tiles.at(i);
 		}
 	}

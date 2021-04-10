@@ -21,6 +21,9 @@ public:
 	float getX();
 	float getY();
 
+	sf::FloatRect getCollisionBoundsWithLocation();
+	sf::FloatRect getCollisionBoundsWithMovement(float xMove, float yMove);
+
 	void setX(float x);
 	void setY(float y);
 };
