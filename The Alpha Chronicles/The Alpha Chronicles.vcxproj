@@ -148,6 +148,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="HostileEntity.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MobileEntity.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="HostileEntity.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MobileEntity.h" />
     <ClInclude Include="Player.h" />

@@ -3,6 +3,7 @@
 #include "State.h"
 #include "Player.h"
 #include "Tree.h"
+#include "HostileEntity.h"
 #include "Map.h"
 
 class GameState : public State {

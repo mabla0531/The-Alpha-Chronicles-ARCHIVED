@@ -7,12 +7,14 @@ GameState::GameState(sf::RenderWindow* window) {
 
 	player = new Player(&testMap, &entities);
 	Tree* tree = new Tree();
+	HostileEntity* he = new HostileEntity(&testMap, &entities, player);
 
 	tree->setX(300);
 	tree->setY(300);
 
 	entities.push_back(player);
 	entities.push_back(tree);
+	entities.push_back(he);
 }
 
 GameState::~GameState() {

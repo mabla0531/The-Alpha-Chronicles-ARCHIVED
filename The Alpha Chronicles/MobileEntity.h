@@ -11,8 +11,8 @@ protected:
 	float animationCycleSpeed = 250.0f;
 	sf::Clock cycleClock;
 
-	std::vector<Entity*>* entities;
-	Map* map;
+	std::vector<Entity*>* entities; //entities vector for doing entity collision detection during movement
+	Map* map; //map object for doing tile collision detection
 	bool movingX = false;
 	bool movingY = false;
 
