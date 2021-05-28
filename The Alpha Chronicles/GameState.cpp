@@ -5,16 +5,48 @@ GameState::GameState(sf::RenderWindow* window) {
 	gameCameraOffsetX = 0;
 	gameCameraOffsetY = 0;
 
-	player = new Player(&testMap, &entities);
-	Tree* tree = new Tree();
-	HostileEntity* he = new HostileEntity(&testMap, &entities, player);
+	player = new Player(&testMap, &entities, window, &gameCameraOffsetX, &gameCameraOffsetY);
+	/*Tree* tree1 = new Tree();
+	Tree* tree2 = new Tree();
+	Tree* tree3 = new Tree();
+	Tree* tree4 = new Tree();
+	Tree* tree5 = new Tree();
+	Tree* tree6 = new Tree();
+	Tree* tree7 = new Tree();
+	Tree* tree8 = new Tree();
+	Tree* tree9 = new Tree();*/
+	HostileEntity* robot = new HostileEntity(&testMap, &entities, player);
 
-	tree->setX(300);
-	tree->setY(300);
+	/*tree1->setX(300);
+	tree1->setY(300);
+	tree2->setX(400);
+	tree2->setY(300);
+	tree3->setX(600);
+	tree3->setY(200);
+	tree4->setX(500);
+	tree4->setY(700);
+	tree5->setX(700);
+	tree5->setY(200);
+	tree6->setX(100);
+	tree6->setY(800);
+	tree7->setX(200);
+	tree7->setY(600);
+	tree8->setX(400);
+	tree8->setY(200);
+	tree9->setX(100);
+	tree9->setY(400);*/
 
 	entities.push_back(player);
-	entities.push_back(tree);
-	entities.push_back(he);
+	/*entities.push_back(tree1);
+	entities.push_back(tree2);
+	entities.push_back(tree3);
+	entities.push_back(tree4);
+	entities.push_back(tree5);
+	entities.push_back(tree6);
+	entities.push_back(tree7);
+	entities.push_back(tree8);
+	entities.push_back(tree9);*/
+	entities.push_back(robot);
 }
 
 GameState::~GameState() {
@@ -41,7 +73,7 @@ void GameState::tick() {
 
 	testMap.tick();
 
-	//sort Entities by Y value to give a 3d look
+	//sort Entities by Y value to give a 3d perspective
 	std::sort(entities.begin(), entities.end(), [](Entity* e1, Entity* e2) {
 		return e1->getY() < e2->getY();
 	});

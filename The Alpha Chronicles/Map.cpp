@@ -4,9 +4,8 @@
 Map::Map() {
 	int mapWidth, mapHeight, tileID;
 	sf::IntRect tileRects[3];
-	tileRects[0] = sf::IntRect(672, 160, 32, 32);
-	tileRects[1] = sf::IntRect(832, 352, 32, 32);
-	tileRects[2] = sf::IntRect(704, 544, 32, 32);
+	tileRects[0] = sf::IntRect(32, 352, 32, 32);
+	tileRects[1] = sf::IntRect(128, 544, 32, 32);
 
 	std::ifstream mapFile;
 	mapFile.open("res/maps/map1.map");
@@ -25,7 +24,7 @@ Map::Map() {
 	width = mapWidth * 32;
 	height = mapHeight * 32;
 
-	tileMap.loadFromFile("res/terrain_atlas.png");
+	tileMap.loadFromFile("res/terrain.png");
 }
 
 Map::~Map() {

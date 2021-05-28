@@ -1,5 +1,4 @@
 #include "Entity.h"
-#include <iostream>
 
 Entity::Entity() {
 	
@@ -31,4 +30,12 @@ void Entity::setX(float x) {
 
 void Entity::setY(float y) {
 	this->y = y;
+}
+
+void Entity::hurt(int damage) {
+	health -= damage;
+}
+
+int Entity::getHealth() {
+	return health;
 }

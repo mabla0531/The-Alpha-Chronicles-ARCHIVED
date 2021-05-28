@@ -1,8 +1,14 @@
 #include "Player.h"
+#include <iostream>
+#include <cmath>
 
-Player::Player(Map* map, std::vector<Entity*>* entities) : MobileEntity(map, entities) {
+Player::Player(Map* map, std::vector<Entity*>* entities, sf::RenderWindow* window, int* cameraXOffset, int* cameraYOffset) : MobileEntity(map, entities) {
+	this->window = window;
+	this->cameraXOffset = cameraXOffset;
+	this->cameraYOffset = cameraYOffset;
+	
 	//set spriteSheet and sprite
-	spriteSheet.loadFromFile("res/male_01-1.png");
+	spriteSheet.loadFromFile("res/player.png");
 	sprite.setTexture(spriteSheet);
 
 	//construct animations, 0, 1, 2, 3 is down, left, right, up respectively
@@ -37,37 +43,31 @@ Player::~Player() {
 }
 
 void Player::tick() {
-	movingX = false;
-	movingY = false;
 	
 	float xMove = 0.0f, yMove = 0.0f; //stores the movement that needs to be done
-	float moveInterval = speed;
+	float moveSpeed = speed;
 	animationCycleSpeed = 250.0f;
 
 	//keyboard input
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-		moveInterval = runningSpeed;
+		moveSpeed = runningSpeed;
 		animationCycleSpeed = 125.0f;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		yMove = -moveInterval;
-		movingY = true;
+		yMove = -moveSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		xMove = -moveInterval;
-		movingX = true;
+		xMove = -moveSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		yMove = moveInterval;
-		movingY = true;
+		yMove = moveSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		xMove = moveInterval;
-		movingX = true;
+		xMove = moveSpeed;
 	}
 
 	//special diagonal movement that ensures the player will not move faster diagonally
-	float diagonalMove = sqrt((moveInterval * moveInterval) / 2);
+	float diagonalMove = sqrt((moveSpeed * moveSpeed) / 2);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		yMove = -diagonalMove;
 		xMove = -diagonalMove;
@@ -82,19 +82,35 @@ void Player::tick() {
 		xMove = diagonalMove;
 	}
 	
-	//apply the movement if any was done
-	if (movingX) moveX(xMove);
-	if (movingY) moveY(yMove);
+	//apply the movement
+	moveX(xMove);
+	moveY(yMove);
+
+	//mouse input
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		FloatPoint mouseXY = getLengthRatio(x + 16 - *cameraXOffset, y + 16 - *cameraYOffset, sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
+
+		for (int e = 0; e < entities->size(); e++) {
+			if (entities->at(e) != this) {
+				for (int step = 16; step <= 64; step += 16) { //TODO FIX THIS RETARDED FUCKING JERRYRIG LATER BUT IT WORKS FOR NOW I GUESS
+					if (entities->at(e)->getCollisionBoundsWithLocation().contains(sf::Vector2f(x + 16 - (step * mouseXY.x), y + 16 - (step * mouseXY.y)))) {
+						entities->at(e)->hurt(1);
+						std::cout << entities->at(e)->getHealth() << std::endl;
+					}
+				}
+			}
+		}
+	}
 
 	//set the current animation for the direction of movement
-	if (yMove > 0.0f) currentAnimation = &animation[0];
-	else if (yMove < 0.0f) currentAnimation = &animation[3];
+	if (yMove > 0.0f)						currentAnimation = &animation[0];
+	else if (yMove < 0.0f)					currentAnimation = &animation[3];
 	else if (xMove < 0.0f && yMove == 0.0f) currentAnimation = &animation[1];
 	else if (xMove > 0.0f && yMove == 0.0f) currentAnimation = &animation[2];
 
 	//cycle animation, and if the entity isn't moving set the currentFrame to idle
 	if (cycleClock.getElapsedTime().asMilliseconds() >= animationCycleSpeed) {
-		if (movingX || movingY) {
+		if (xMove != 0.0f || yMove != 0.0f) {
 			cycleClock.restart();
 			currentFrame++;
 			if (currentFrame >= currentAnimation->length) currentFrame = 0; //if the current frame is larger than the size of the vector, set it to the beginning again
@@ -102,3 +118,9 @@ void Player::tick() {
 	}
 }
 
+void Player::render(sf::RenderWindow* window, int xOffset, int yOffset) {
+	sprite.setPosition(sf::Vector2f(x - xOffset, y - yOffset)); //center the player sprite exactly in the center of the screen
+	sprite.setTextureRect(currentAnimation->frames.at(currentFrame));
+
+	window->draw(sprite);
+}

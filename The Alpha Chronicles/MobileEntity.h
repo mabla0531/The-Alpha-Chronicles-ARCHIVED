@@ -13,11 +13,9 @@ protected:
 
 	std::vector<Entity*>* entities; //entities vector for doing entity collision detection during movement
 	Map* map; //map object for doing tile collision detection
-	bool movingX = false;
-	bool movingY = false;
 
-	float speed = 1.5f;
-	float runningSpeed = 2.5f;
+	float speed = 1.0f;
+	float runningSpeed = 2.0f;
 
 public:
 

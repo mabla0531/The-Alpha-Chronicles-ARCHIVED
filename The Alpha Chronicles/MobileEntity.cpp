@@ -17,17 +17,13 @@ void MobileEntity::moveX(float xMove) {
 	if ((xMove < 0.0f && ((map->getTile(x + xMove + (float)collisionBounds.left, y + (float)collisionBounds.top).isSolid()) ||
 						  (map->getTile(x + xMove + (float)collisionBounds.left, y + (float)collisionBounds.top + (float)collisionBounds.height).isSolid()))) ||
 		(xMove > 0.0f && ((map->getTile(x + xMove + (float)collisionBounds.left + (float)collisionBounds.width, y + (float)collisionBounds.top).isSolid()) ||
-						  (map->getTile(x + xMove + (float)collisionBounds.left + (float)collisionBounds.width, y + (float)collisionBounds.top + (float)collisionBounds.height).isSolid())))) {
-		movingX = false;
+						  (map->getTile(x + xMove + (float)collisionBounds.left + (float)collisionBounds.width, y + (float)collisionBounds.top + (float)collisionBounds.height).isSolid()))))
 		return;
-	}
 
+	//collision detection for all entities
 	for (int i = 0; i < entities->size(); i++) {
-
-		if (entities->at(i) != this && getCollisionBoundsWithMovement(xMove, 0.0f).intersects(entities->at(i)->getCollisionBoundsWithLocation())) {
-			movingX = false;
+		if (entities->at(i) != this && getCollisionBoundsWithMovement(xMove, 0.0f).intersects(entities->at(i)->getCollisionBoundsWithLocation()))
 			return;
-		}
 	}
 
 	x += xMove;
@@ -38,17 +34,12 @@ void MobileEntity::moveY(float yMove) {
 	if ((yMove < 0.0f && ((map->getTile(x + (float)collisionBounds.left, y + yMove + (float)collisionBounds.top).isSolid()) ||
 						  (map->getTile(x + (float)collisionBounds.left + (float)collisionBounds.width, y + yMove + (float)collisionBounds.top).isSolid()))) ||
 		(yMove > 0.0f && ((map->getTile(x + (float)collisionBounds.left, y + yMove + (float)collisionBounds.top + (float)collisionBounds.height).isSolid()) ||
-						  (map->getTile(x + (float)collisionBounds.left + (float)collisionBounds.width, y + yMove + (float)collisionBounds.top + (float)collisionBounds.height).isSolid())))) {
-		movingY = false;
+						  (map->getTile(x + (float)collisionBounds.left + (float)collisionBounds.width, y + yMove + (float)collisionBounds.top + (float)collisionBounds.height).isSolid()))))
 		return;
-	}
 
 	for (int i = 0; i < entities->size(); i++) {
-
-		if (entities->at(i) != this && getCollisionBoundsWithMovement(0.0f, yMove).intersects(entities->at(i)->getCollisionBoundsWithLocation())) {
-			movingY = false;
+		if (entities->at(i) != this && getCollisionBoundsWithMovement(0.0f, yMove).intersects(entities->at(i)->getCollisionBoundsWithLocation()))
 			return;
-		}
 	}
 
 	y += yMove;
